@@ -1,0 +1,36 @@
+services:
+  #COCKROACH
+  #docker exec -it cockroach-db ./cockroach sql --insecure
+  cockroach-db:
+    command: start-single-node --insecure
+    container_name: cockroach-db
+    hostname: cockroach-db
+    image: cockroachdb/cockroach:latest
+    networks:
+      - energy-network
+    ports:
+      - 8080:8080
+      - 26257:26257
+    volumes:
+      - cockroach-volume:/cockroach/cockroach-data
+  #POSTGRES
+  #docker exec -it postgres-db psql -h localhost -U postgres -p 5432
+  postgres-db:
+    container_name: postgres-db
+    environment:
+      - POSTGRES_USER=postgres 
+      - POSTGRES_PASSWORD=postgres
+    hostname: postgres-db
+    image: postgres:latest
+    networks:
+      - energy-network
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres-volume:/var/lib/postgresql/data
+volumes:
+  cockroach-volume:
+  postgres-volume:
+networks:
+  energy-network:
+    driver: bridge
