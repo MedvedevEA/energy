@@ -8,9 +8,9 @@ services:
     image: cockroachdb/cockroach:latest
     networks:
       - energy-network
-    ports:
-      - 8080:8080
-      - 26257:26257
+    #ports:
+    #  - 8080:8080
+    #  - 26257:26257
     volumes:
       - cockroach-volume:/cockroach/cockroach-data
   #POSTGRES
@@ -24,10 +24,140 @@ services:
     image: postgres:latest
     networks:
       - energy-network
-    ports:
-      - 5432:5432
+    #ports:
+    #  - 5432:5432
     volumes:
       - postgres-volume:/var/lib/postgresql/data
+  #SERVER 8000 POSTGRES
+  server-8000-postgres:   
+    container_name: server-8000-postgres
+    depends_on: 
+      - postgres-db
+    environment:
+      - DATASOURCENAME=host=postgres-db database=postgres port=5432 sslmode=disable user=postgres password='postgres'
+    hostname: server-8000-postgres
+    image: energy:v1
+    networks:
+      - energy-network
+    ports:
+      - 8000:8000
+  #SERVER 8001 POSTGRES
+  server-8001-postgres:   
+    container_name: server-8001-postgres
+    depends_on: 
+      - postgres-db
+    environment:
+      - DATASOURCENAME=host=postgres-db database=postgres port=5432 sslmode=disable user=postgres password='postgres'
+    hostname: server-8001-postgres
+    image: energy:v1
+    networks:
+      - energy-network
+    ports:
+      - 8001:8000
+    #SERVER 8002 POSTGRES
+  server-8002-postgres:   
+    container_name: server-8002-postgres
+    depends_on: 
+      - postgres-db
+    environment:
+      - DATASOURCENAME=host=postgres-db database=postgres port=5432 sslmode=disable user=postgres password='postgres'
+    hostname: server-8002-postgres
+    image: energy:v1
+    networks:
+      - energy-network
+    ports:
+      - 8002:8000
+    #SERVER 8003 POSTGRES
+  server-8003-postgres:   
+    container_name: server-8003-postgres
+    depends_on: 
+      - postgres-db
+    environment:
+      - DATASOURCENAME=host=postgres-db database=postgres port=5432 sslmode=disable user=postgres password='postgres'
+    image: energy:v1
+    hostname: server-8003-postgres
+    networks:
+      - energy-network
+    ports:
+      - 8003:8000
+    #SERVER 8004 POSTGRES
+  server-8004-postgres:   
+    container_name: server-8004-postgres
+    depends_on: 
+      - postgres-db
+    environment:
+      - DATASOURCENAME=host=postgres-db database=postgres port=5432 sslmode=disable user=postgres password='postgres'
+    image: energy:v1
+    hostname: server-8004-postgres
+    networks:
+      - energy-network
+    ports:
+      - 8004:8000
+  #SERVER 8010 COCKROACH
+  server-8010-cockroach:
+    container_name: server-8010-cockroach
+    depends_on:
+      - cockroach-db
+    environment:
+      - DATASOURCENAME=host=cockroach-db database=defaultdb port=26257 sslmode=disable user=root password= 
+    hostname: server-8010-cockroach
+    image: energy:v1
+    networks:
+      - energy-network
+    ports:
+      - 8010:8000
+  #SERVER 8011 COCKROACH
+  server-8011-cockroach:
+    container_name: server-8011-cockroach
+    depends_on:
+      - cockroach-db
+    environment:
+      - DATASOURCENAME=host=cockroach-db database=defaultdb port=26257 sslmode=disable user=root password= 
+    hostname: server-8011-cockroach
+    image: energy:v1
+    networks:
+      - energy-network
+    ports:
+      - 8011:8000
+  #SERVER 8012 COCKROACH
+  server-8012-cockroach:
+    container_name: server-8012-cockroach
+    depends_on:
+      - cockroach-db
+    environment:
+      - DATASOURCENAME=host=cockroach-db database=defaultdb port=26257 sslmode=disable user=root password= 
+    hostname: server-8012-cockroach
+    image: energy:v1
+    networks:
+      - energy-network
+    ports:
+      - 8012:8000
+  #SERVER 8013 COCKROACH
+  server-8013-cockroach:
+    container_name: server-8013-cockroach
+    depends_on:
+      - cockroach-db
+    environment:
+      - DATASOURCENAME=host=cockroach-db database=defaultdb port=26257 sslmode=disable user=root password= 
+    hostname: server-8013-cockroach
+    image: energy:v1
+    networks:
+      - energy-network
+    ports:
+      - 8013:8000
+  #SERVER 8014 COCKROACH
+  server-8014-cockroach:
+    container_name: server-8014-cockroach
+    depends_on:
+      - cockroach-db
+    environment:
+      - DATASOURCENAME=host=cockroach-db database=defaultdb port=26257 sslmode=disable user=root password= 
+    hostname: server-8014-cockroach
+    image: energy:v1
+    networks:
+      - energy-network
+    ports:
+      - 8014:8000
 volumes:
   cockroach-volume:
   postgres-volume:

@@ -68,11 +68,24 @@ func main() {
 	logger := log.New(os.Stdout, "", log.Ldate|log.Ltime)
 
 	//Подключение базы даннных
-	db, err := sql.Open("postgres", os.Getenv("DATASOURCENAME"))
-	if err != nil {
-		logger.Fatal(err)
+	var (
+		db  *sql.DB
+		err error
+	)
+	for {
+		db, err = sql.Open("postgres", os.Getenv("DATASOURCENAME"))
+		if err != nil {
+			logger.Fatal(err)
+		}
+		if err := db.Ping(); err != nil {
+			logger.Print(err)
+			time.Sleep(1 * time.Second)
+			continue
+		}
+		break
 	}
 	defer db.Close()
+
 	if _, err = db.Exec(`
 		CREATE TABLE IF NOT EXISTS marks (
 		mark_id uuid NOT NULL DEFAULT gen_random_uuid(),
